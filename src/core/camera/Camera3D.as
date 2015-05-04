@@ -3,21 +3,23 @@
 * Blog: http://tgerm.org
 */
 
-package core.entities
+package core.camera
 {
 	import core.base.Object3D;
 	import flash.events.IEventDispatcher;
 
 	/**
-	 * @author vancopper
+	 * core.camera.Camera3D
+	 *
+	 * @author vanCopper
 	 */
-	public class Mesh extends Object3D
+	public class Camera3D extends Object3D
 	{
 
 		// METHODS
 		
 		
-		public function Mesh(target:IEventDispatcher = null)
+		public function Camera3D(target:IEventDispatcher = null)
 		{
 			//TODO
 		}

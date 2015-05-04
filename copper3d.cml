@@ -1,0 +1,97 @@
+<diagram>
+  <externalRelation name="relation" type="generalization" from="View3D" to="flash.display.Sprite"/>
+  <class name="View3D" isInner="false" visibility="public" isMxml="false" width="195" height="214" x="1133">
+    <asdoc name="AsDoc" content="@author vancopper"/>
+    <property name="_scene3dList" type="Vector.&lt;Scene3D>" visibility="private" hasGetter="false" hasSetter="false" isConstant="false" isStatic="false">
+      <asdoc name="AsDoc" content=""/>
+    </property>
+    <method name="View3D" returnType="@constructor" visibility="public">
+      <asdoc name="AsDoc" content=""/>
+    </method>
+    <method name="onAddToStage" returnType="void" visibility="private">
+      <asdoc name="AsDoc" content=""/>
+      <argument name="event" type="flash.events.Event" defaultValue=""/>
+    </method>
+    <method name="addScene3D" returnType="void" visibility="public">
+      <asdoc name="AsDoc" content="添加场景至View &#xA;@param scene"/>
+      <argument name="scene" type="Scene3D" defaultValue=""/>
+    </method>
+    <method name="removeScene3D" returnType="void" visibility="public">
+      <asdoc name="AsDoc" content="从View移除场景 &#xA;@param scene"/>
+      <argument name="scene" type="Scene3D" defaultValue=""/>
+    </method>
+    <method name="onEnterFrame" returnType="void" visibility="private">
+      <asdoc name="AsDoc" content=""/>
+      <argument name="event" type="flash.events.Event" defaultValue=""/>
+    </method>
+  </class>
+  <externalRelation name="relation" type="generalization" from="Scene3D" to="core.base.Object3D"/>
+  <class name="Scene3D" isInner="false" visibility="public" isMxml="false" width="169" height="139" x="30" y="504">
+    <asdoc name="AsDoc" content=""/>
+    <method name="Scene3D" returnType="@constructor" visibility="public">
+      <asdoc name="AsDoc" content=""/>
+      <argument name="target" type="flash.events.IEventDispatcher" defaultValue="null"/>
+    </method>
+    <property name="stage3DIndex" type="uint" visibility="private" hasGetter="false" hasSetter="false" isConstant="false" isStatic="true">
+      <asdoc name="AsDoc" content=""/>
+    </property>
+    <method name="setup" returnType="void" visibility="public">
+      <asdoc name="AsDoc" content=""/>
+    </method>
+  </class>
+  <package name="core" width="1115" height="474" minWidth="1115" x="-12" minHeight="474" y="0"/>
+  <package name="core.shaders" width="240" height="172" minWidth="240" x="20" minHeight="172" y="40"/>
+  <class name="core.shaders.Shader3D" isInner="false" visibility="public" isMxml="false" width="160" height="72" x="40" y="80">
+    <asdoc name="AsDoc" content="shader &#xA;@author vancopper"/>
+    <method name="Shader3D" returnType="@constructor" visibility="public">
+      <asdoc name="AsDoc" content=""/>
+    </method>
+  </class>
+  <package name="core.renderers" width="283" height="172" minWidth="283" x="290" minHeight="172" y="40"/>
+  <class name="core.renderers.DefaultRenderer" isInner="false" visibility="public" isMxml="false" width="203" height="72" x="310" y="80">
+    <asdoc name="AsDoc" content="默认渲染器 &#xA;@author vancopper"/>
+    <method name="DefaultRenderer" returnType="@constructor" visibility="public">
+      <asdoc name="AsDoc" content=""/>
+    </method>
+  </class>
+  <package name="core.materials" width="245" height="172" minWidth="245" x="603" minHeight="172" y="40"/>
+  <class name="core.materials.Material3D" isInner="false" visibility="public" isMxml="false" width="165" height="72" x="623" y="80">
+    <asdoc name="AsDoc" content="材质 &#xA;@author vancopper"/>
+    <method name="Material3D" returnType="@constructor" visibility="public">
+      <asdoc name="AsDoc" content=""/>
+    </method>
+  </class>
+  <package name="core.entities" width="232" height="172" minWidth="232" x="50" minHeight="172" y="242"/>
+  <externalRelation name="relation" type="generalization" from="core.entities.Mesh" to="core.base.Object3D"/>
+  <class name="core.entities.Mesh" isInner="false" visibility="public" isMxml="false" width="152" height="72" x="70" y="282">
+    <asdoc name="AsDoc" content="@author vancopper"/>
+    <method name="Mesh" returnType="@constructor" visibility="public">
+      <asdoc name="AsDoc" content=""/>
+      <argument name="target" type="flash.events.IEventDispatcher" defaultValue="null"/>
+    </method>
+  </class>
+  <package name="core.camera" width="256" height="172" minWidth="256" x="312" minHeight="172" y="242"/>
+  <externalRelation name="relation" type="generalization" from="core.camera.Camera3D" to="core.base.Object3D"/>
+  <class name="core.camera.Camera3D" isInner="false" visibility="public" isMxml="false" width="176" height="72" x="332" y="282">
+    <asdoc name="AsDoc" content=""/>
+    <method name="Camera3D" returnType="@constructor" visibility="public">
+      <asdoc name="AsDoc" content=""/>
+      <argument name="target" type="flash.events.IEventDispatcher" defaultValue="null"/>
+    </method>
+  </class>
+  <package name="core.base" width="445" height="172" minWidth="445" x="598" minHeight="172" y="242"/>
+  <class name="core.base.Surface3D" isInner="false" visibility="public" isMxml="false" width="164" height="72" x="618" y="282">
+    <asdoc name="AsDoc" content="网格基类&#xA;@author vancopper"/>
+    <method name="Surface3D" returnType="@constructor" visibility="public">
+      <asdoc name="AsDoc" content=""/>
+    </method>
+  </class>
+  <externalRelation name="relation" type="generalization" from="core.base.Object3D" to="flash.events.EventDispatcher"/>
+  <class name="core.base.Object3D" isInner="false" visibility="public" isMxml="false" width="171" height="72" x="812" y="282">
+    <asdoc name="AsDoc" content="基类 &#xA;@author vancopper"/>
+    <method name="Object3D" returnType="@constructor" visibility="public">
+      <asdoc name="AsDoc" content=""/>
+      <argument name="target" type="flash.events.IEventDispatcher" defaultValue="null"/>
+    </method>
+  </class>
+</diagram>

@@ -1,16 +1,25 @@
+/**
+* GitHub: http://github.com/vanCopper/copper3d
+* Blog: http://tgerm.org
+*/
+
 package core.base
 {
+
 	/**
 	 * 网格基类
 	 * @author vancopper
-	 * 
-	 */	
+	 */
 	public class Surface3D
 	{
-		//TODO: 1.包含顶点，顶点索引，uv，法线等信息
-		//		
+
+		// METHODS
+		
+		
 		public function Surface3D()
 		{
+			//TODO
 		}
+
 	}
 }
