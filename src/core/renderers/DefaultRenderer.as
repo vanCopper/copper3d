@@ -12,10 +12,6 @@ package core.renderers
 	 */
 	public class DefaultRenderer
 	{
-
-		// METHODS
-		
-		
 		public function DefaultRenderer()
 		{
 			//TODO

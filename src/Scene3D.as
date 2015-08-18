@@ -5,15 +5,19 @@
 
 package
 {
+	import com.adobe.utils.PerspectiveMatrix3D;
+	
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage3D;
 	import flash.display3D.Context3D;
-	import flash.display3D.Context3DProfile;
 	import flash.display3D.Context3DRenderMode;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
 	
 	import core.base.Object3D;
+	import core.camera.Camera3D;
+	import core.camera.lens.PerspectiveLens;
 	
 	import utils.Color;
 
@@ -24,24 +28,26 @@ package
 	 */
 	public class Scene3D extends Object3D
 	{
-		// PROPERTIES
 		private static var _stage3dIndex:uint = 0;
 		
 		private var _stage3d:Stage3D;
 		private var _context3d:Context3D;
-		private var _container:DisplayObjectContainer;
+		private var _container:DisplayObject;
 		private var _viewPort:Rectangle;
-		private var _antialias:int;
+		private var _antialias:int = 4;
 		private var _backgroundColor:Color;
+		
+		
+		private var _camera3d:Camera3D;
 
-		// METHODS
-		
-		
-		public function Scene3D(container:DisplayObjectContainer)
+		public function Scene3D(container:DisplayObject)
 		{
 			if(!container)return;
 			_container = container;
 			_backgroundColor = new Color();
+			
+			_camera3d = new Camera3D(new PerspectiveLens());
+			
 			if(_container.stage)
 			{
 				onAddToStage(null);				
@@ -49,6 +55,7 @@ package
 			{
 				_container.addEventListener(Event.ADDED_TO_STAGE, onAddToStage);
 			}
+			
 		}
 		
 		private function onAddToStage(event:Event):void
@@ -65,7 +72,7 @@ package
 			
 			_stage3d = _container.stage.stage3Ds[_stage3dIndex];
 			_stage3d.addEventListener(Event.CONTEXT3D_CREATE, onContext3dCreate);
-			_stage3d.requestContext3D(Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
+			_stage3d.requestContext3D(Context3DRenderMode.AUTO, App.profileDefault);
 			
 			_stage3dIndex ++;
 		}
@@ -85,10 +92,14 @@ package
 			if(!_viewPort)
 			{
 				setViewPort(0, 0, _container.stage.stageWidth, _container.stage.stageHeight);
+			}else
+			{
+				setViewPort(_viewPort.x, _viewPort.y, _viewPort.width, _viewPort.height);
 			}
 			
 			_context3d.enableErrorChecking = App.enableErrorChecking;
 			_container.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			dispatchEvent(event);
 		}
 		
 		private function onEnterFrame(event:Event):void
@@ -98,6 +109,8 @@ package
 			renderScene();
 		}
 		
+		
+		public var model:PerspectiveMatrix3D;
 		/**
 		 * 渲染场景 
 		 * 
@@ -105,9 +118,30 @@ package
 		private function renderScene():void
 		{
 			//TODO:
+			_context3d.clear(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.alpha);
+			App.context3D = _context3d;
+			App.stage3D = _stage3d;
+			
+			App.view = _camera3d.invWorld;
+			App.projection = _camera3d.projection;
+			App.viewProjection = _camera3d.viewProjection;
+			
+//			_context3d.setFillMode(Context3DFillMode.WIREFRAME);
+			var len:int = children.length;
+			for(var i:int = 0; i < len; i++)
+			{
+				var child:Object3D = children[i];
+				if(child)
+				{
+					child.update();
+					child.draw();
+				}
+			}
+			
+			_context3d.present();
 		}
 		
-		public function setViewPort(x:Number, y:Number, width:Number, height:Number):void
+		public function setViewPort(x:int, y:int, width:int, height:int):void
 		{
 			if(!_viewPort) _viewPort = new Rectangle();
 			
@@ -126,10 +160,11 @@ package
 				_stage3d.x = _viewPort.x;
 				_stage3d.y = _viewPort.y;
 				_context3d.configureBackBuffer(_viewPort.width, _viewPort.height, antialias);
-				_context3d.clear(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+				_context3d.clear(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.alpha);
 			}
+			
+			camera3d.lens.updateViewport(0, 0, _viewPort.width, _viewPort.height);
 		}
-		
 		
 		/**
 		 * 获取抗锯齿等级 
@@ -152,7 +187,7 @@ package
 			_antialias = value;
 			if (viewPort && _stage3d && _stage3d.context3D) {
 				_stage3d.context3D.configureBackBuffer(viewPort.width, viewPort.height, value);
-				_stage3d.context3D.clear(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+				_stage3d.context3D.clear(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.alpha);
 			}
 		}
 
@@ -181,6 +216,15 @@ package
 			_backgroundColor = value;
 		}
 
+		public function get camera3d():Camera3D
+		{
+			return _camera3d;
+		}
+
+		public function set camera3d(value:Camera3D):void
+		{
+			_camera3d = value;
+		}
 
 	}
 }

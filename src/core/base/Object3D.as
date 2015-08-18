@@ -5,33 +5,41 @@
 
 package core.base
 {
-	import flash.events.EventDispatcher;
 	import flash.geom.Matrix3D;
+	
 
 	/**
 	 * 基类 
 	 * @author vancopper
 	 */
-	public class Object3D extends EventDispatcher
+	public class Object3D extends Transform3D
 	{
 
 		private var _children:Vector.<Object3D>;
 		private var _parent:Object3D;
 		
-		private var _local:Matrix3D;
-		private var _world:Matrix3D;
-		private var _invWorld:Matrix3D;
-		
 		public var name:String = "";
-		// METHODS
-		
 		
 		public function Object3D()
 		{
 			_children = new Vector.<Object3D>();
-			_local = new Matrix3D();
-			_world = new Matrix3D();
-			_invWorld = new Matrix3D();
+		}
+		
+		public function dispose():void
+		{
+			//TODO:	
+		}
+		
+		override public function get world():Matrix3D
+		{
+			super.world;
+			
+			if(this.parent)
+			{
+				_world.append(this.parent.world);
+			}
+			
+			return _world;
 		}
 		
 		public function addChild(child:Object3D):void
